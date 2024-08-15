@@ -35,6 +35,7 @@ class _EntryDetailViewState extends State<EntryDetailView> {
       Content.text("""
       You are a diary summarizer. You will be given a diary entry, and you need to summarize it in a few sentences.
       Try to capture the essence of the diary entry in your summary, but try not to lose the details.
+      Try to only summarize the things for the day, as future plans will be detected separately.
       Maximum length of summary should be 100 characters.
 
       Also, you should analyse and return the sentiment of the diary entry. The posible sentiments are:

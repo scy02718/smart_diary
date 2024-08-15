@@ -75,6 +75,7 @@ class DiaryEntryTile extends StatelessWidget {
                     spacing: 5,
                     children: entry.futureEvents.map((event) {
                       return Container(
+                        margin: const EdgeInsets.only(top: 2, bottom: 2),
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: const BoxDecoration(
                           color: Colors.blue,

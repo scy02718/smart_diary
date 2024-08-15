@@ -25,6 +25,18 @@ class DiaryEntryTile extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  if (entry.sentiment.isNotEmpty) Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Text(
+                      entry.sentiment,
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
+                    )
+                  ),
+                  const SizedBox(width: 5),
                   Wrap(
                     spacing: 5,
                     children: entry.tags.map((tag) {
@@ -46,12 +58,13 @@ class DiaryEntryTile extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 10),
               Text(
                 _getFormattedDate(entry.date),
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               const SizedBox(height: 5),
-              Text(entry.content),
+              Text(entry.summary),
             ],
           ),
         ),

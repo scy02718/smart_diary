@@ -2,12 +2,12 @@ class DiaryEntry {
   final DateTime date;
   String content;
   String summary = '';
+  String sentiment = '';
   List<String> tags = <String>[];
 
   DiaryEntry({
     required this.date,
     this.content = '',
-    this.summary = '',
   });
 
   void addTag(String tag) {

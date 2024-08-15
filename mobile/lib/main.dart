@@ -41,6 +41,15 @@ class DiaryApp extends StatelessWidget {
                 Tab(text: 'Month View'),
               ],
             ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  // Implement the refresh functionality here
+                  print('Refresh button pressed');     
+                },
+              ),
+            ],
           ),
           body: TabBarView(
             children: [

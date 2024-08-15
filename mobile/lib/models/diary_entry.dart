@@ -3,6 +3,7 @@ class DiaryEntry {
   String content;
   String summary = '';
   String sentiment = '';
+  List<dynamic> futureEvents = <String>[];
   List<String> tags = <String>[];
 
   DiaryEntry({

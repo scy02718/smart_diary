@@ -1,61 +1,97 @@
-// screens/entry_detail_view.dart
+// lib/screens/entry_detail_view.dart
 import 'package:flutter/material.dart';
 import '../models/diary_entry.dart';
 
 class EntryDetailView extends StatefulWidget {
   final DiaryEntry entry;
 
-  EntryDetailView({required this.entry});
+  const EntryDetailView({required this.entry, Key? key}) : super(key: key);
 
   @override
   _EntryDetailViewState createState() => _EntryDetailViewState();
 }
 
 class _EntryDetailViewState extends State<EntryDetailView> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.entry.content);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _saveContent() {
-    setState(() {
-      widget.entry.content = _controller.text;
-    });
-    Navigator.pop(context);
-  }
+  final List<String> availableTags = ["work", "family", "vacation"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Entry'),
+        title: const Text('Diary Entry'),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
-            onPressed: _saveContent,
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          controller: _controller,
-          maxLines: null,
-          decoration: InputDecoration(
-            labelText: 'Your Diary Entry',
-            border: OutlineInputBorder(),
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: TextEditingController(text: widget.entry.content),
+              onChanged: (value) {
+                widget.entry.content = value;
+              },
+              maxLines: null,
+              decoration: const InputDecoration(
+                hintText: 'Write your entry...',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Tags:',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 10,
+              children: availableTags.map((tag) {
+                final isSelected = widget.entry.tags.contains(tag);
+                return ChoiceChip(
+                  label: Text(tag),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    setState(() {
+                      if (selected) {
+                        widget.entry.addTag(tag);
+                      } else {
+                        widget.entry.removeTag(tag);
+                      }
+                    });
+                  },
+                  selectedColor: _getTagColor(tag),
+                  labelStyle: TextStyle(
+                    color: isSelected ? Colors.white : Colors.black,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Color _getTagColor(String tag) {
+    switch (tag) {
+      case 'work':
+        return Colors.blue;
+      case 'family':
+        return Colors.green;
+      case 'vacation':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
   }
 }

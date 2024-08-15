@@ -65,6 +65,33 @@ class DiaryEntryTile extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(entry.summary),
+              const SizedBox(height: 10),
+              if (entry.futureEvents.isNotEmpty) Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Reminder:', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 5),
+                  Wrap(
+                    spacing: 5,
+                    children: entry.futureEvents.map((event) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Text(
+                          event,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

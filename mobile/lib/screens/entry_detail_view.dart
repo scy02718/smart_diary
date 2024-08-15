@@ -37,12 +37,16 @@ class _EntryDetailViewState extends State<EntryDetailView> {
       Try to capture the essence of the diary entry in your summary, but try not to lose the details.
       Maximum length of summary should be 100 characters.
 
-      Also, you should also analyse and return the sentiment of the diary entry. The posible sentiments are:
+      Also, you should analyse and return the sentiment of the diary entry. The posible sentiments are:
       VERY POSITIVE, POSITIVE, NEUTRAL, NEGATIVE, VERY NEGATIVE.
+      Also, you should detect all important future events and dates from the content of the diary entry.
+      For example, if the diary entry says "I have a meeting with John tomorrow at 3pm", you should detect that the next day there is a meeting with John at 3pm.
+      If there are no future events or dates, you should return "No future events or dates detected". Only detect Future events, not the one that already happened.
       You should return in this format:
       {
         "summary": "This is a generated summary for the day.",
         "sentiment": "positive"
+        "future_events": ["event1", "event2"]
       }
 
       I will provide you with the diary entry now.      
@@ -66,10 +70,12 @@ class _EntryDetailViewState extends State<EntryDetailView> {
       // Extract summary and sentiment
       String summary = jsonResponse['summary'] ?? "Summary not available";
       String sentiment = jsonResponse['sentiment'] ?? "Sentiment not available";
+      List<dynamic> futureEvents = jsonResponse['future_events'] ?? "No future events or dates detected";
 
       setState(() {
         widget.entry.summary = summary;
         widget.entry.sentiment = sentiment;
+        widget.entry.futureEvents = futureEvents;
       });
 
     } catch (error) {
@@ -78,13 +84,7 @@ class _EntryDetailViewState extends State<EntryDetailView> {
         widget.entry.summary = "Error generating summary.";
       });
     } 
-  }
-
-  
-  //I woke up and prepared quickly to pick up my girlfriend and go to library to do some school assignment. I successfully did it on time, and picked her up
-  //We went to get food, where we grabbed poke. We also grabbed some coffee, and the manager at the coffee place was someone that we knew, she gave us free croissants.
-  //With a lot of food, we went to the library and ate all of them. It was good, and we did a lot of work.
-  
+  }  
 
   @override
   Widget build(BuildContext context) {

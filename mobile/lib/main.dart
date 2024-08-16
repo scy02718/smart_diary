@@ -11,21 +11,46 @@ void main() {
 class DiaryApp extends StatelessWidget {
   const DiaryApp({super.key});
 
+  // Function to get the start of the week (Monday)
+  DateTime getStartOfWeek(DateTime date) {
+    // DateTime.weekday is 1 for Monday and 7 for Sunday
+    return date.subtract(Duration(days: date.weekday - 1));
+  }
+
+  // Function to generate a list of DiaryEntry for a week (Monday to Sunday)
+  List<DiaryEntry> generateWeekEntries(DateTime today) {
+    DateTime startOfWeek = getStartOfWeek(today);
+    return List.generate(
+      7,
+      (index) => DiaryEntry(
+        date: startOfWeek.add(Duration(days: index)),
+      ),
+    );
+  }
+
+  // Function to generate a list of weeks for the month view
+  List<List<DiaryEntry>> generateMonthEntries(DateTime today) {
+    List<List<DiaryEntry>> monthEntries = [];
+    DateTime startOfMonth = DateTime(today.year, today.month, 1);
+    DateTime endOfMonth = DateTime(today.year, today.month + 1, 0);
+    
+    DateTime currentWeekStart = getStartOfWeek(startOfMonth);
+
+    while (currentWeekStart.isBefore(endOfMonth)) {
+      List<DiaryEntry> weekEntries = generateWeekEntries(currentWeekStart);
+      monthEntries.add(weekEntries);
+      currentWeekStart = currentWeekStart.add(Duration(days: 7));
+    }
+
+    return monthEntries;
+  }
+
   @override
   Widget build(BuildContext context) {
     // Mock data for demonstration purposes
-    List<DiaryEntry> weekEntries = List.generate(
-      7,
-      (index) => DiaryEntry(date: DateTime.now().subtract(Duration(days: index))),
-    );
+    List<DiaryEntry> weekEntries = generateWeekEntries(DateTime.now());
 
-    List<List<DiaryEntry>> monthEntries = List.generate(
-      4,
-      (index) => List.generate(
-        7,
-        (i) => DiaryEntry(date: DateTime.now().subtract(Duration(days: i + index * 7))),
-      ),
-    );
+    List<List<DiaryEntry>> monthEntries = generateMonthEntries(DateTime.now());
 
     return MaterialApp(
       title: 'Diary App',

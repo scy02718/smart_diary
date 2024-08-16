@@ -42,7 +42,7 @@ class _EntryDetailViewState extends State<EntryDetailView> {
       VERY POSITIVE, POSITIVE, NEUTRAL, NEGATIVE, VERY NEGATIVE.
       Also, you should detect all important future events and dates from the content of the diary entry.
       For example, if the diary entry says "I have a meeting with John tomorrow at 3pm", you should detect that the next day there is a meeting with John at 3pm.
-      If there are no future events or dates, you should return "No future events or dates detected". Only detect Future events, not the one that already happened.
+      If there are no future events or dates, you should return ["No future events or dates detected"] in a list. Only detect Future events, not the one that already happened.
       You should return in this format:
       {
         "summary": "This is a generated summary for the day.",
@@ -71,7 +71,7 @@ class _EntryDetailViewState extends State<EntryDetailView> {
       // Extract summary and sentiment
       String summary = jsonResponse['summary'] ?? "Summary not available";
       String sentiment = jsonResponse['sentiment'] ?? "Sentiment not available";
-      List<dynamic> futureEvents = jsonResponse['future_events'] ?? "No future events or dates detected";
+      List<dynamic> futureEvents = jsonResponse['future_events'] ?? ["No future events or dates detected"];
 
       setState(() {
         widget.entry.summary = summary;
@@ -105,7 +105,7 @@ class _EntryDetailViewState extends State<EntryDetailView> {
                   color: Colors.blue[800]
                 ),
                 child: Text(
-                  "Date: ${widget.entry.date.day}/${widget.entry.date.month}/${widget.entry.date.year}",
+                  _getFormattedDate(widget.entry.date),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                 ),
               ),
@@ -250,6 +250,35 @@ class _EntryDetailViewState extends State<EntryDetailView> {
       default:
         return const Icon(Icons.sentiment_neutral, color: Colors.white);
     }
+  }
+
+  String _getFormattedDate(DateTime date) {
+    const monthToString = {
+      1: 'Jan',
+      2: 'Feb',
+      3: 'Mar',
+      4: 'Apr',
+      5: 'May',
+      6: 'Jun',
+      7: 'Jul',
+      8: 'Aug',
+      9: 'Sep',
+      10: 'Oct',
+      11: 'Nov',
+      12: 'Dec',
+    };
+
+    const dateToday = {
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday',
+        7: 'Sunday',
+      };
+
+    return '${dateToday[date.weekday]} ${date.day} ${monthToString[date.month]}, ${date.year}';
   }
 }
 

@@ -9,8 +9,8 @@ class DiaryEntryTile extends StatelessWidget {
   const DiaryEntryTile({
     required this.entry,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +129,16 @@ class DiaryEntryTile extends StatelessWidget {
       12: 'Dec',
     };
 
-    return '${date.day} ${monthToString[date.month]}, ${date.year}';
+    const dateToday = {
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday',
+        7: 'Sunday',
+      };
+
+    return '${dateToday[date.weekday]} ${date.day} ${monthToString[date.month]}, ${date.year}';
   }
 }

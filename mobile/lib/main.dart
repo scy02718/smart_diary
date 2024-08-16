@@ -24,6 +24,11 @@ class DiaryApp extends StatelessWidget {
       7,
       (index) => DiaryEntry(
         date: startOfWeek.add(Duration(days: index)),
+        content: "",
+        summary: "",
+        sentiment: "",
+        futureEvents: [],
+        tags: [],
       ),
     );
   }
@@ -39,7 +44,7 @@ class DiaryApp extends StatelessWidget {
     while (currentWeekStart.isBefore(endOfMonth)) {
       List<DiaryEntry> weekEntries = generateWeekEntries(currentWeekStart);
       monthEntries.add(weekEntries);
-      currentWeekStart = currentWeekStart.add(Duration(days: 7));
+      currentWeekStart = currentWeekStart.add(const Duration(days: 7));
     }
 
     return monthEntries;

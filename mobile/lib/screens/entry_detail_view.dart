@@ -1,6 +1,8 @@
 // lib/screens/entry_detail_view.dart
 import 'package:flutter/material.dart';
 import '../models/diary_entry.dart';
+import '../data/repositories/data_repository.dart';
+
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
@@ -18,7 +20,9 @@ class _EntryDetailViewState extends State<EntryDetailView> {
   final List<String> availableTags = ["work", "family", "vacation"];
   late GenerativeModel model;
   late ChatSession chat;
-  
+
+  final DiaryRepository _diaryRepo = DiaryRepository();
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +30,11 @@ class _EntryDetailViewState extends State<EntryDetailView> {
   }
 
   Future<void> _initModel() async {
-    await dotenv.load(fileName: ".env");
+    try{
+      await dotenv.load(fileName: ".env");
+    } catch (e) {
+      print("Error loading .env file: $e");
+    }
     String apiKey = dotenv.env['API_KEY']!;
 
     model = GenerativeModel(model: "gemini-1.5-flash", apiKey: apiKey, generationConfig: GenerationConfig(responseMimeType: "application/json"));
@@ -85,6 +93,8 @@ class _EntryDetailViewState extends State<EntryDetailView> {
         widget.entry.summary = "Error generating summary.";
       });
     } 
+
+    await _diaryRepo.updateDiaryEntry(widget.entry);
   }  
 
   @override

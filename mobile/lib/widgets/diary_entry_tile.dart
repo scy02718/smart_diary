@@ -9,8 +9,8 @@ class DiaryEntryTile extends StatelessWidget {
   const DiaryEntryTile({
     required this.entry,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +19,11 @@ class DiaryEntryTile extends StatelessWidget {
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Row(  
                 children: [
                   if (entry.sentiment.isNotEmpty) Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -58,7 +58,7 @@ class DiaryEntryTile extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 5),
               Text(
                 _getFormattedDate(entry.date),
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -129,6 +129,16 @@ class DiaryEntryTile extends StatelessWidget {
       12: 'Dec',
     };
 
-    return '${date.day} ${monthToString[date.month]}, ${date.year}';
+    const dateToday = {
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday',
+        7: 'Sunday',
+      };
+
+    return '${dateToday[date.weekday]} ${date.day} ${monthToString[date.month]}, ${date.year}';
   }
 }

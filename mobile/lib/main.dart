@@ -1,8 +1,10 @@
 // main.dart
 import 'package:flutter/material.dart';
+import 'package:mobile/theme/theme.dart';
 import 'screens/week_view.dart';
 import 'screens/month_view.dart';
 import 'models/diary_entry.dart';
+
 
 void main() {
   runApp(DiaryApp());
@@ -54,7 +56,8 @@ class DiaryApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Diary App',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: lightMode,
+      darkTheme: darkMode,
       home: DefaultTabController(
         length: 2,
         child: Scaffold(

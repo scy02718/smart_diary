@@ -1,4 +1,4 @@
-# smart_diary
+# Smart Diary
 
 
 ## Development Team
